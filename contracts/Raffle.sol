@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
+	import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
+
 	error Raffle__SendMoreToEnterRaffle();
 	error Raffle__NotOpen();
+	error Raffle_UpKeepNeeded();
 contract Raffle {
 	enum RaffleState {
 		Open,
@@ -15,12 +18,23 @@ contract Raffle {
 	address payable[] public s_players;
 	uint256 public immutable i_interval;
 	uint256 public s_lastTimeStamp;
+	VRFCoordinatorV2Interface public immutable i_vrfCoordinator;
+	bytes32 public i_gasLane;
+	uint64 public i_subscriptionId;
+	uint16 public constant REQUEST_CONFIRMATIONS = 3;
+	uint32 i_callBackgasLimit;
+	uint32 public constant NUM_WORDS = 1;
 
 	event RaffleEnter(address indexed player);
 
-	constructor(uint256 entranceFee, uint256 interval) {
+	constructor(uint256 entranceFee, uint256 interval, address vrfCoordinatorV2, bytes32 gasLane, uint64 subscriptionId, uint32 callBackGasLimit) {
 		i_entranceFee = entranceFee;
 		i_interval = interval;
+		s_lastTimeStamp = block.timestamp;
+		i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
+		i_gasLane = gasLane; //keyHash
+		i_subscriptionId = subscriptionId;
+		i_callBackgasLimit = callBackGasLimit;
 	}
 
 	function enterRaffle() external payable {
@@ -41,11 +55,29 @@ contract Raffle {
 	// real random generator
 	//1 Be true after some time interval
 	// 2 the lottery to be open
-	// 3 ontract has eth
+	// 3 contract has eth
 	// 4 keeps has LINK
 	function checkUpKeep(bytes memory /* check data */ ) public view returns(bool upKeepNeeded, bytes memory /* perform data */ ) {
 		bool isOpen = RaffleState.Open == s_raffleState;
 		bool timePassed =  (block.timestamp - s_lastTimeStamp) > i_interval;// keep track of time
+		bool hasBalance = address(this).balance > 0;
+		bool hasPlayers = s_players.length > 0;
+		upKeepNeeded = timePassed && hasBalance && isOpen && hasPlayers;
+		return (upKeepNeeded, "0x0");
+	}
+
+	function performUpKeep(bytes calldata /* perform data */) external {
+		(bool upKeepNeeded, ) = checkUpKeep("");
+		if (!upKeepNeeded) {
+			revert Raffle_UpKeepNeeded();
+		}
+		s_raffleState = RaffleState.Calculating;
+		uint256 requestId = i_vrfCoordinator.requestRandomWords(
+			i_gasLane,
+			i_subscriptionId,
+			REQUEST_CONFIRMATIONS,
+			i_callBackgasLimit,
+			NUM_WORDS
+		);
 	}
 }
-
