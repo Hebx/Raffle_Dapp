@@ -101,3 +101,5 @@ contract Raffle is VRFConsumerBaseV2 {
 		emit WinnerPicked(recentWinner);
 	}
 }
+// Decentralized escrow for the entry fee
+// Decentralized winner picker
