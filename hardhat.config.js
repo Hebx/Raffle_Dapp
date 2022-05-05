@@ -8,7 +8,7 @@ require("@nomiclabs/hardhat-waffle")
  */
 
 module.exports = {
-  network: {
+  networks: {
     rinkeby: {
       url: process.env.RINKEBY_RPC_URL,
       accounts: [process.env.PRIVATE_KEY],

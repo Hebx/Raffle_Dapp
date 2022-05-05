@@ -1,8 +1,8 @@
 const { getNamedAccounts } = require("hardhat");
 
-const ENTRANCE_FEE = ethers.utils.parseEther("0.1")
+const ENTRANCE_FEE = ethers.utils.parseEther("0.1");
 
-module.exports = async ((getNamedAccounts, deployments)) => {
+module.exports = async ({getNamedAccounts, deployments}) => {
 	const {deploy, log} = deployments
 	const {deployer} = await getNamedAccounts();
 	const args = [
@@ -12,6 +12,5 @@ module.exports = async ((getNamedAccounts, deployments)) => {
 		from: deployer,
 		args: args,
 		log: true,
-		waitcConfirmation: 6
 		})
 }
