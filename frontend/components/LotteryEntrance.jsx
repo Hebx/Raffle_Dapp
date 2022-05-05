@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
-import {abi} from "../constants/abi.json"
+import abi from "../constants/abi.json"
 
 const CONTRACT_ADDRESS = "0x3eAEA181d5CC53D53cDae06e96f29A6705C52553"
 
@@ -21,7 +21,7 @@ export default function LotteryEntrance() {
 	const {runContractFunction: getRecentWinner} = useWeb3Contract({
 		abi: abi,
 		contractAddress: CONTRACT_ADDRESS,
-		functions: "s_recentWinner",
+		functionName: "s_recentWinner",
 		params: {},
 	})
 
@@ -43,7 +43,7 @@ export default function LotteryEntrance() {
 			}} >
 				Enter Lottery
 			</button>
-			<div>The Recent Winner is : {recentWinner}</div>
+			<div>The Recent Winner was : {recentWinner}</div>
 		</div>
 	)
 }
