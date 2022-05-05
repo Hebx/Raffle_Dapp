@@ -10,4 +10,5 @@ Decentralized Raffle
 2_ Deploy it in a decentralized context
 
 ### Deployed to IPFS
-ipfs://bafybeiciovtk4om5cjbhrxctds3nx3e67a2pzvgekm2jlr7d7krc7fagya/
+ipfs://bafybeigwnjonhsdjssozwdpwnd4tttgjkbosybm4hdneqmydxlssvdikhe/
+https://ipfs.io/ipfs/Qmcme2NdPNg9pk8H8uZ6bAq69PmcftS3AMKaYrANTyghTW
