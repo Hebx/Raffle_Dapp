@@ -23,13 +23,13 @@ contract Raffle is VRFConsumerBaseV2 {
 	VRFCoordinatorV2Interface public immutable i_vrfCoordinator;
 	bytes32 public i_gasLane;
 	uint64 public i_subscriptionId;
-	uint16 public constant REQUEST_CONFIRMATIONS = 3;
-	uint32 i_callBackgasLimit;
-	uint32 public constant NUM_WORDS = 1;
+	uint32 public i_callBackgasLimit;
 	address public s_recentWinner;
+	uint16 public constant REQUEST_CONFIRMATIONS = 3;
+	uint32 public constant NUM_WORDS = 1;
 
 	event RaffleEnter(address indexed player);
-	event RequestRaffleWinner(uint256 indexed requestId);
+	event RequestRaffleWinner(uint256 indexed requestId); // player
 	event WinnerPicked(address indexed winner);
 
 	constructor(uint256 entranceFee, uint256 interval, address vrfCoordinatorV2, bytes32 gasLane, uint64 subscriptionId, uint32 callBackGasLimit) VRFConsumerBaseV2(vrfCoordinatorV2) {
@@ -90,9 +90,9 @@ contract Raffle is VRFConsumerBaseV2 {
 	function fulfillRandomWords(uint256, /*requestId*/ uint256[] memory randomWords) internal override {
 		uint256 indexOfWinenr = randomWords[0] % s_players.length;
 		address payable recentWinner = s_players[indexOfWinenr];
+		s_recentWinner = recentWinner;
 		s_players = new address payable[](0);
 		s_raffleState = RaffleState.Open;
-		s_recentWinner = recentWinner;
 		s_lastTimeStamp = block.timestamp;
 		(bool success, ) = recentWinner.call{value: address(this).balance}("");
 		if(!success) {

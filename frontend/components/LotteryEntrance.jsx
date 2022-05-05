@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import abi from "../constants/abi.json"
 
-const CONTRACT_ADDRESS = "0x3eAEA181d5CC53D53cDae06e96f29A6705C52553"
+const CONTRACT_ADDRESS = "0x0aBcA4Ee0600f11c4731A8C81d60D005FB3eCB16"
 
 export default function LotteryEntrance() {
 	const {isWeb3Enabled} = useMoralis()
@@ -13,7 +13,7 @@ export default function LotteryEntrance() {
 		abi: abi,
 		contractAddress: CONTRACT_ADDRESS,
 		functionName: "enterRaffle",
-		msgValue: "100000000000000000", // 0.1ETH
+		msgValue: "10000000000000000", // 0.01ETH
 		params: {},
 	});
 
