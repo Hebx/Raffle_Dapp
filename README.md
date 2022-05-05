@@ -10,8 +10,9 @@ Decentralized Raffle
 2_ Deploy it in a decentralized context
 
 ### Deployed to IPFS
-QmPBshe6hzfKy3FfbS5RyTzFdeu3Wut9zamjo3XCKECTZs
-https://ipfs.io/ipfs/QmPBshe6hzfKy3FfbS5RyTzFdeu3Wut9zamjo3XCKECTZs
+QmPKZzmc4QMZBg9nzD7XAuvFgHAL79Ye7QqTc27kdC8GhW
+https://ipfs.io/ipfs/QmPKZzmc4QMZBg9nzD7XAuvFgHAL79Ye7QqTc27kdC8GhW
+
 ## Key Points
-// Decentralized escrow for the entry fee
-// Decentralized winner picker
+ Decentralized escrow for the entry fee
+ Decentralized winner picker
